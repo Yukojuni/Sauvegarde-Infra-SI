@@ -1,0 +1,11 @@
+[2024-05-14 22:28:30] Erreur : Le répertoire source '/home/lucasmcn/dev/Sauvegarde-InfraSI/database' n'existe pas.
+[2024-05-14 22:29:04] Erreur : Connexion SSH vers 192.168.37.128 impossible.
+[2024-05-14 22:32:43] Erreur : Connexion SSH vers 192.168.37.128 impossible.
+[2024-05-14 22:36:28] Erreur : Connexion SSH vers 192.168.37.128 impossible.
+[2024-05-14 22:43:59] Erreur : Connexion SSH vers 192.168.37.128 impossible.
+[2024-05-14 22:44:43] Sauvegarde réussie : /home/lucasmcn/dev/Sauvegarde-Infra-SI/database vers ubuntu@192.168.37.128:/home/ubuntu/Documents/backup/20240514
+[2024-05-14 23:21:01] Sauvegarde réussie : /home/lucasmcn/dev/Sauvegarde-Infra-SI/database vers ubuntu@192.168.37.128:/home/ubuntu/Documents/backup/2024051423:20:36
+[2024-05-15 10:05:05] Erreur : Connexion SSH vers 192.168.37.128 impossible.
+[2024-05-15 10:14:23] Erreur : Connexion SSH vers 192.168.37.128 impossible.
+[2024-05-15 10:25:50] Sauvegarde réussie : /home/lucasmcn/dev/Sauvegarde-Infra-SI/database vers ubuntu@192.168.37.128:/home/ubuntu/Documents/backup/2024051510:25:38
+[2024-05-15 19:06:42] Erreur : Connexion SSH vers 192.168.37.128 impossible.

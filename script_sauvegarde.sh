@@ -1,12 +1,12 @@
 #!/bin/bash
 
 # Définition des variables
-SOURCE_DIR="/home/lucasmcn/dev/Sauvegarde-InfraSI/database"
+SOURCE_DIR="/home/lucasmcn/dev/Sauvegarde-Infra-SI/database"
 DEST_USER="ubuntu" #remplacer par l'user de la VM de sauvegarde
 DEST_HOST="192.168.37.128" #remplacer par l'IP de la VM de sauvegarde 
-DEST_DIR="/home/ubuntu/Documents"
-DATE=$(date +"%Y%m%d")
-LOG_FILE="/home/lucasmcn/dev/Sauvegarde-InfraSI/log/sauvegarde.log"
+DEST_DIR="/home/ubuntu/Documents/backup"
+DATE=$(date +"%Y%m%d%T")
+LOG_FILE="/home/lucasmcn/dev/Sauvegarde-Infra-SI/log/sauvegarde.log"
 
 # Fonction pour journaliser les messages
 log_message() {
