@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # Définition des variables
-REPERTOIRE_SAUVEGARDE="home/lucasmcn/Documents"
-DEST_USER="lucasmcn"
-DEST_HOST="192.168.37.130"
-DEST_DIR="/home/lucasmcn/dev/Sauvegarde-Infra-SI/database"
+SOURCE_DIR="/home/lucasmcn/dev/Sauvegarde-Infra-SI/database"
+DEST_USER="lucasmcn" # remplacer par l'utilisateur de la VM de sauvegarde
+DEST_HOST="192.168.37.130" # remplacer par l'IP de la VM de sauvegarde
+DEST_DIR="/home/lucasmcn/Documents/backup"
 LOG_FILE="/home/lucasmcn/dev/Sauvegarde-Infra-SI/log/restauration.log"
 
 # Fonction pour journaliser les messages
@@ -19,29 +19,47 @@ if ! ssh -q "$DEST_USER@$DEST_HOST" exit; then
     exit 1
 fi
 
-# Récupérer la liste des répertoires de sauvegarde disponibles sur le serveur distant
-fichiers_sauvegarde=$(ssh "$DEST_USER@$DEST_HOST" "ls -d $REPERTOIRE_SAUVEGARDE_SUR_SERVEUR/*/")
+# Récupération de la liste des sauvegardes disponibles
+BACKUP_LIST=$(ssh "$DEST_USER@$DEST_HOST" "ls -1 $DEST_DIR")
+if [ $? -ne 0 ]; then
+    log_message "Erreur : Impossible de récupérer la liste des sauvegardes disponibles sur $DEST_HOST."
+    exit 1
+fi
 
-# Afficher les répertoires de sauvegarde disponibles
-echo "Répertoires de sauvegarde disponibles :"
-echo "$fichiers_sauvegarde"
-echo
+# Conversion de la liste des sauvegardes en tableau
+BACKUP_ARRAY=($BACKUP_LIST)
 
-# Afficher une interface utilisateur pour sélectionner le fichier à restaurer
+# Interface de sélection de la sauvegarde
 PS3="Choisissez le fichier à restaurer : "
-select fichier in "$REPERTOIRE_SAUVEGARDE"/*; do
-    if [ ! -z "$fichier" ]; then
-        echo "Vous avez sélectionné $fichier pour la restauration."
-        # Ajoutez ici la logique de restauration du fichier sélectionné
-        # Par exemple, vous pouvez copier le fichier vers un répertoire de restauration sur le serveur distant
-        scp "$fichier" "$DEST_USER@$DEST_HOST:$DEST_DIR/"
-        if [ $? -eq 0 ]; then
-            log_message "Restauration réussie : $fichier vers $DEST_USER@$DEST_HOST:$DEST_DIR/"
-        else
-            log_message "Erreur lors de la restauration de $fichier vers $DEST_USER@$DEST_HOST:$DEST_DIR/"
-        fi
+select BACKUP in "${BACKUP_ARRAY[@]}"; do
+    if [ -n "$BACKUP" ]; then
+        echo "Vous avez sélectionné $BACKUP pour la restauration."
         break
     else
-        echo "Option invalide, veuillez choisir un numéro de fichier valide."
+        echo "Sélection invalide. Veuillez choisir un numéro valide."
     fi
 done
+
+# Demande de confirmation
+read -p "Voulez-vous vraiment restaurer la sauvegarde $BACKUP ? (oui/non) : " CONFIRMATION
+if [[ "$CONFIRMATION" != "oui" ]]; then
+    log_message "Restauration annulée par l'utilisateur."
+    exit 1
+fi
+
+# Création du répertoire source si nécessaire
+if [ ! -d "$SOURCE_DIR" ]; then
+    mkdir -p "$SOURCE_DIR"
+fi
+
+# Restauration des données
+rsync -av --delete "$DEST_USER@$DEST_HOST:$DEST_DIR/$BACKUP/" "$SOURCE_DIR/"
+
+# Vérification du succès de la restauration
+if [ $? -eq 0 ]; then
+    log_message "Restauration réussie : $DEST_USER@$DEST_HOST:$DEST_DIR/$BACKUP vers $SOURCE_DIR"
+    echo "Restauration réussie."
+else
+    log_message "Erreur lors de la restauration de $DEST_USER@$DEST_HOST:$DEST_DIR/$BACKUP vers $SOURCE_DIR"
+    echo "Erreur lors de la restauration."
+fi

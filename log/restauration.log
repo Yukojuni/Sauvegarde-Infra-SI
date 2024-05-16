@@ -1,1 +1,7 @@
 [2024-05-14 23:31:46] Erreur : Le répertoire de sauvegarde 'home/ubuntu/Documents/backup' n'existe pas.
+[2024-05-16 17:47:50] Annulation par l'utilisateur.
+[2024-05-16 17:49:11] Annulation par l'utilisateur.
+[2024-05-16 17:50:14] Annulation par l'utilisateur.
+[2024-05-16 17:54:59] Erreur : Impossible de récupérer la liste des sauvegardes disponibles sur 192.168.37.130.
+[2024-05-16 17:56:09] Restauration réussie : lucasmcn@192.168.37.130:/home/lucasmcn/Documents/backup/2024051617:44:50 vers /home/lucasmcn/dev/Sauvegarde-Infra-SI/database
+[2024-05-16 17:58:01] Restauration réussie : lucasmcn@192.168.37.130:/home/lucasmcn/Documents/backup/2024051617:44:50 vers /home/lucasmcn/dev/Sauvegarde-Infra-SI/database
